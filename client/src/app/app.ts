@@ -1,9 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; // ✅ Import this
 import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
+  standalone: true, // ✅ must be true for standalone component
+  imports: [CommonModule], // ✅ add this line
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
@@ -11,7 +14,7 @@ export class App implements OnInit {
 
   private http = inject(HttpClient);
   protected title = 'Dating App';
-  protected members = signal<any[]>([]); // signal for reactive state
+  protected members = signal<any[]>([]);
 
   async ngOnInit() {
     try {
@@ -24,7 +27,6 @@ export class App implements OnInit {
     }
   }
 
-  // Used for trackBy in *ngFor
   trackById(index: number, member: any): number {
     return member.id;
   }
